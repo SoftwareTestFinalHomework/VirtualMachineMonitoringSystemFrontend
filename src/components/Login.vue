@@ -3,7 +3,7 @@
         <el-col :span="8"></el-col>
         <el-col :span="8">
             <el-card>
-                <img class="login-image" src='../assets/login.png' alt="登录图标" >
+                <img class="login-image" src='../assets/virtualMachine.png' alt="登录图标" >
                 <el-input v-model="username" placeholder="请输入用户名" />
                 <el-input v-model="password" placeholder="请输入密码" show-password/>
                 <el-button type="primary" round @click="login">登录</el-button>
@@ -29,8 +29,6 @@ export default {
                 return true
             }
 
-            console.log(username.value)
-            console.log(password.value)
             if(isUsernameAndPasswordCorrect(username.value,password.value)){
                 router.push('/')
             }
@@ -64,7 +62,7 @@ export default {
     border-radius: 15px;
 }
 .login-image{
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
 }
 </style>
