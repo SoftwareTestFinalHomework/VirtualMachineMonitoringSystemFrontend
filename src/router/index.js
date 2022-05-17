@@ -1,8 +1,17 @@
-import {createRouter,createWebHashHistory} from "vue-router"
-
+import { createRouter,createWebHashHistory } from "vue-router"
+import Login from '../components/Login.vue'
 
 const routes = [
-    // 代配置
+    {
+        path: '/',
+        name: 'mainPage',
+        component: Login
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    }
 ]
 
 

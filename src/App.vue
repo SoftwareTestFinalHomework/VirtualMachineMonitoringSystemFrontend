@@ -10,8 +10,8 @@ export default {
 </script>
 
 <template>
-    <img alt="Vue logo" src="./assets/virtualMachine.png" />
-    <p>Hello Virtual Machine Monitoring System</p>
+<!--    <img alt="Vue logo" src="./assets/virtualMachine.png" />-->
+<!--    <p>Hello Virtual Machine Monitoring System</p>-->
     <router-view></router-view>
 </template>
 
