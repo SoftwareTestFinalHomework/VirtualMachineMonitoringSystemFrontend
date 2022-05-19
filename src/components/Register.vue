@@ -1,15 +1,15 @@
 <template>
     <el-row>
-        <el-col :span="8"></el-col>
-        <el-col :span="8">
+        <el-col :span="9"></el-col>
+        <el-col :span="6">
             <el-card>
                 <img class="login-image" src='../assets/register.png' alt="登录图标" >
-                <el-input v-model="username" placeholder="请输入用户名" />
-                <el-input v-model="password" placeholder="请输入密码"/>
-                <el-button type="primary" round @click="register">注册</el-button>
+                <el-input v-model="username" placeholder="Please input username"/>
+                <el-input v-model="password" placeholder="Please input password"/>
+                <el-button type="primary" round @click="register">Register</el-button>
             </el-card>
         </el-col>
-        <el-col :span="8"></el-col>
+        <el-col :span="9"></el-col>
     </el-row>
 </template>
 
@@ -60,6 +60,7 @@ export default {
     position: relative;
     top: 20%;
     border-radius: 15px;
+    text-align: center;
 }
 .login-image{
     width: 150px;
