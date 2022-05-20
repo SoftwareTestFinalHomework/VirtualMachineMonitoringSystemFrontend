@@ -43,7 +43,7 @@
                         <span>Size of Disk(GB):</span>
                     </el-col>
                     <el-col :span="8">
-                        <el-input-number v-model="diskSize" :min="1" @change="handleChangeCPU"/>
+                        <el-input-number v-model="diskSize" :min="10" @change="handleChangeDisk"/>
                     </el-col>
                     <el-col :span="6"></el-col>
                 </el-row>
@@ -107,6 +107,9 @@ export default {
         const handleChangeMemory = (currentValue, oldValue) =>{
 
         }
+        const handleChangeDisk = (currentValue, oldValue) =>{
+
+        }
         return {
             serverList,
             cpuNum,
@@ -115,7 +118,8 @@ export default {
             osTypes,
             virtualMachineName,
             handleChangeCPU,
-            handleChangeMemory
+            handleChangeMemory,
+            handleChangeDisk
         }
     }
 }
