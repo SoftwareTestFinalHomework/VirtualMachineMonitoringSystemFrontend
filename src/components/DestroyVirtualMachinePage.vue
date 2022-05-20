@@ -2,6 +2,19 @@
     <el-row>
         <el-col :span="1"></el-col>
         <el-col :span="22">
+            <el-select placeholder="Select Server" size="large">
+                <el-option
+                    v-for="item in serverList"
+                    :key="item"
+                    :value="item"
+                />
+            </el-select>
+        </el-col>
+        <el-col :span="1"></el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="1"></el-col>
+        <el-col :span="22">
             <el-card>
                 <el-row>
                     <el-col :span="6"></el-col>
@@ -31,9 +44,11 @@ export default {
     name: "DestroyVirtualMachinePage",
     setup(props,context){
         const virtualMachineName = ref('')
+        const serverList = ref([])
 
         return {
-            virtualMachineName
+            virtualMachineName,
+            serverList
         }
     }
 }

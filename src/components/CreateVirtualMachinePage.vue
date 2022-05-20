@@ -5,9 +5,8 @@
             <el-select placeholder="Select Server" size="large">
                 <el-option
                     v-for="item in serverList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    :key="item"
+                    :value="item"
                 />
             </el-select>
         </el-col>
