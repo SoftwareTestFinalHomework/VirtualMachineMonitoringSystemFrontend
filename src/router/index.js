@@ -8,6 +8,7 @@ import CreateVirtualMachinePage from "../components/CreateVirtualMachinePage.vue
 import DestroyVirtualMachinePage from "../components/DestroyVirtualMachinePage.vue";
 import ServersStatistics from "../components/ServersStatistics.vue";
 import VirtualMachinesStatistics from "../components/VirtualMachinesStatistics.vue";
+import DisplayList from "../components/DisplayList.vue";
 
 const routes = [
     {
@@ -44,6 +45,11 @@ const routes = [
                 path: 'virtualMachineStatistic',
                 name: 'virtualMachineStatistic',
                 component: VirtualMachinesStatistics
+            },
+            {
+                path: 'displayList',
+                name: 'displayList',
+                component: DisplayList
             }
         ]
     },

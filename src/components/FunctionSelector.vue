@@ -21,6 +21,9 @@
         <el-menu-item index="6">
             <span>Virtual Machines Statistics</span>
         </el-menu-item>
+        <el-menu-item index="7">
+            <span>Display List</span>
+        </el-menu-item>
     </el-menu>
 </template>
 
@@ -45,6 +48,8 @@ export default {
                 router.push('/serverStatistic')
             }else if(index === '6'){
                 router.push('/virtualMachineStatistic')
+            }else if(index === '7'){
+                router.push('/displayList')
             }
         }
         return {
