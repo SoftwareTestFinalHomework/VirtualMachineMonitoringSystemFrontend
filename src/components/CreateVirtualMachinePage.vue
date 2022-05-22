@@ -29,7 +29,7 @@
                 <el-row>
                     <el-col :span="6"></el-col>
                     <el-col :span="4">
-                        <span>Size of Memory(GB):</span>
+                        <span>Size of Memory (GB):</span>
                     </el-col>
                     <el-col :span="8">
                         <el-input-number v-model="memorySize" :min="1" @change="handleChangeMemory"/>
@@ -93,10 +93,10 @@ import { ref } from "vue";
 export default {
     name: "CreateVirtualMachinePage",
     setup(props,context){
-        const serverList = ref('')
-        const cpuNum = ref('')
-        const memorySize = ref('')
-        const diskSize = ref('')
+        const serverList = ref([])
+        const cpuNum = ref(1)
+        const memorySize = ref(1)
+        const diskSize = ref(10)
         const osTypes = ref(['Ubuntu22.04','Ubuntu20.04','Ubuntu18.04'])
         const virtualMachineName = ref('')
 

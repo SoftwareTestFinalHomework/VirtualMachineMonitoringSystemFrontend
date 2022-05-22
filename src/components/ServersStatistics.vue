@@ -14,18 +14,34 @@
                 </el-row>
                 <el-row class="row-height">
                     <el-col :span="12">
-                        <el-card class="overview-card"></el-card>
+                        <el-card class="overview-card">
+<!--                            <div>-->
+<!--                                -->
+<!--                            </div>-->
+                        </el-card>
                     </el-col>
                     <el-col :span="12">
-                        <el-card class="overview-card"></el-card>
+                        <el-card class="overview-card">
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
+                        </el-card>
                     </el-col>
                 </el-row>
                 <el-row class="row-height">
                     <el-col :span="12">
-                        <el-card class="overview-card"></el-card>
+                        <el-card class="overview-card">
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
+                        </el-card>
                     </el-col>
                     <el-col :span="12">
-                        <el-card class="overview-card"></el-card>
+                        <el-card class="overview-card">
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
+                        </el-card>
                     </el-col>
                 </el-row>
             </div>
@@ -33,28 +49,36 @@
         <el-tab-pane label="CPU Usage">
             <div>
                 <el-card class="single-card">
-
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
                 </el-card>
             </div>
         </el-tab-pane>
         <el-tab-pane label="NetWork Usage">
             <div>
                 <el-card class="single-card">
-
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
                 </el-card>
             </div>
         </el-tab-pane>
         <el-tab-pane label="Memory Usage">
             <div>
                 <el-card class="single-card">
-
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
                 </el-card>
             </div>
         </el-tab-pane>
         <el-tab-pane label="Disk Usage">
             <div>
                 <el-card class="single-card">
-
+<!--                            <div>-->
+<!--                                这里写echarts-->
+<!--                            </div>-->
                 </el-card>
             </div>
         </el-tab-pane>
