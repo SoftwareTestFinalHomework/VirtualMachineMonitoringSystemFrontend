@@ -15,9 +15,7 @@
                 <el-row class="row-height">
                     <el-col :span="12">
                         <el-card class="overview-card">
-<!--                            <div>-->
-<!--                                -->
-<!--                            </div>-->
+                            <div id="server_cpu_usage_id"></div>
                         </el-card>
                     </el-col>
                     <el-col :span="12">
@@ -86,8 +84,13 @@
 </template>
 
 <script>
-import {ref} from "vue";
-
+import { ref, onMounted } from "vue"
+import * as echarts from 'echarts/core'
+import { GridComponent } from 'echarts/components'
+import { LineChart } from 'echarts/charts'
+import { UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition])
 export default {
     name: "ServersStatistics",
     setup(props,context){
@@ -121,5 +124,9 @@ div{
     margin-top: 20px;
     margin-left: 30px;
     margin-right: 30px;
+}
+#server_cpu_usage_id{
+    width: 600px;
+    height: 300px;
 }
 </style>
