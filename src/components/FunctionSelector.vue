@@ -4,24 +4,24 @@
         @select="handleSelect"
     >
         <el-menu-item index="1">
-            <span>Create Server</span>
+            <span>Add Server</span>
         </el-menu-item>
         <el-menu-item index="2">
-            <span>Destroy Server</span>
+            <span>Delete Server</span>
         </el-menu-item>
         <el-menu-item index="3">
-            <span>Create Virtual Machine</span>
+            <span>Add Virtual Machine</span>
         </el-menu-item>
         <el-menu-item index="4">
-            <span>Destroy Virtual Machine</span>
+            <span>Delete Virtual Machine</span>
         </el-menu-item>
+<!--        <el-menu-item index="5">-->
+<!--            <span>Servers Statistics</span>-->
+<!--        </el-menu-item>-->
         <el-menu-item index="5">
-            <span>Servers Statistics</span>
-        </el-menu-item>
-        <el-menu-item index="6">
             <span>Virtual Machines Statistics</span>
         </el-menu-item>
-        <el-menu-item index="7">
+        <el-menu-item index="6">
             <span>Display List</span>
         </el-menu-item>
     </el-menu>
@@ -45,10 +45,9 @@ export default {
             }else if(index === '4'){
                 router.push('/destroyVirtualMachine')
             }else if(index === '5'){
-                router.push('/serverStatistic')
-            }else if(index === '6'){
+                // router.push('/serverStatistic')
                 router.push('/virtualMachineStatistic')
-            }else if(index === '7'){
+            }else if(index === '6'){
                 router.push('/displayList')
             }
         }

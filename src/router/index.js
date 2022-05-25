@@ -36,11 +36,11 @@ const routes = [
                 name: 'destroyVirtualMachine',
                 component: DestroyVirtualMachinePage
             },
-            {
-                path: 'serverStatistic',
-                name: 'serverStatistic',
-                component: ServersStatistics
-            },
+            // {
+            //     path: 'serverStatistic',
+            //     name: 'serverStatistic',
+            //     component: ServersStatistics
+            // },
             {
                 path: 'virtualMachineStatistic',
                 name: 'virtualMachineStatistic',
@@ -53,16 +53,16 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/login',
-        name: 'login',
-        component: Login
-    },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register
-    }
+    // {
+    //     path: '/login',
+    //     name: 'login',
+    //     component: Login
+    // },
+    // {
+    //     path: '/register',
+    //     name: 'register',
+    //     component: Register
+    // }
 ]
 
 const router = createRouter({
