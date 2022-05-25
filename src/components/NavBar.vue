@@ -9,8 +9,8 @@
             <span>Virtual Machine Monitoring System</span>
         </el-menu-item>
         <el-menu-item index="2">Homepage</el-menu-item>
-        <el-menu-item index="3">Log</el-menu-item>
-        <el-menu-item index="4">Register</el-menu-item>
+<!--        <el-menu-item index="3">Log</el-menu-item>-->
+<!--        <el-menu-item index="4">Register</el-menu-item>-->
     </el-menu>
 </template>
 
@@ -26,11 +26,12 @@ export default {
         const handleSelect = (index) =>{
             if(index === '2'){
                 router.push('/')
-            }else if(index === '3'){
-                router.push('/login')
-            }else if(index === '4'){
-                router.push('/register')
             }
+            // else if(index === '3'){
+            //     router.push('/login')
+            // }else if(index === '4'){
+            //     router.push('/register')
+            // }
         }
         return {
             activeIndex,
