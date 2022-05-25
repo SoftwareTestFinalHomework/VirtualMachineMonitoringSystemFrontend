@@ -212,7 +212,7 @@ export default {
                             })
                             const cpuChartDom = document.getElementById('cpu_usage_30m')
                             const cpuChart = echarts.init(cpuChartDom)
-                            option && cpuChart.setOption(option)
+                            option && cpuChart.setOption(option, true)
                         }
                         const drawMemoryUsageIntervalThirtyMinutes = () =>{
                             const option = {
@@ -283,7 +283,7 @@ export default {
                             })
                             const memoryChartDom = document.getElementById('memory_usage_30m')
                             const memoryChart = echarts.init(memoryChartDom)
-                            option && memoryChart.setOption(option)
+                            option && memoryChart.setOption(option, true)
                         }
                         const drawDiskUsageIntervalThirtyMinutes = () =>{
                             const option = {
@@ -354,7 +354,7 @@ export default {
                             })
                             const diskChartDom = document.getElementById('disk_usage_30m')
                             const diskChart = echarts.init(diskChartDom)
-                            option && diskChart.setOption(option)
+                            option && diskChart.setOption(option, true)
                         }
                         const drawNetworkUsageIntervalThirtyMinutes = () =>{
                             const option = {
@@ -448,7 +448,7 @@ export default {
                             })
                             const networkChartDom = document.getElementById('network_usage_30m')
                             const networkChart = echarts.init(networkChartDom)
-                            option && networkChart.setOption(option)
+                            option && networkChart.setOption(option, true)
                         }
                         drawCpuUsageIntervalThirtyMinutes()
                         drawMemoryUsageIntervalThirtyMinutes()
@@ -799,10 +799,10 @@ export default {
 
                         },5000)
 
-                        cpuUsageDynamicOption && cpuUsageChart5s.setOption(cpuUsageDynamicOption)
-                        memoryUsageDynamicOption && memoryUsageChart5s.setOption(memoryUsageDynamicOption)
-                        diskUsageDynamicOption && diskUsageChart5s.setOption(diskUsageDynamicOption)
-                        networkDynamicOption && networkChart5s.setOption(networkDynamicOption)
+                        cpuUsageDynamicOption && cpuUsageChart5s.setOption(cpuUsageDynamicOption, true)
+                        memoryUsageDynamicOption && memoryUsageChart5s.setOption(memoryUsageDynamicOption, true)
+                        diskUsageDynamicOption && diskUsageChart5s.setOption(diskUsageDynamicOption, true)
+                        networkDynamicOption && networkChart5s.setOption(networkDynamicOption,true)
                     }).catch((error) =>{
                         console.log(error)
                     })
@@ -818,9 +818,7 @@ export default {
 
         })
         onUnmounted(() =>{
-            console.log(Timer)
             clearInterval(Timer)
-            console.log('onUnmounted!!!')
         })
         return {
             serverList,
