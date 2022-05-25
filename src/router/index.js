@@ -1,20 +1,18 @@
 import { createRouter,createWebHashHistory } from "vue-router"
-import Login from '../components/Login.vue'
-import Register from '../components/Register.vue'
-import HomePage from "../components/HomePage.vue";
-import CreateServerPage from "../components/CreateServerPage.vue";
-import DestroyServerPage from "../components/DestroyServerPage.vue";
-import CreateVirtualMachinePage from "../components/CreateVirtualMachinePage.vue";
-import DestroyVirtualMachinePage from "../components/DestroyVirtualMachinePage.vue";
-import ServersStatistics from "../components/ServersStatistics.vue";
-import VirtualMachinesStatistics from "../components/VirtualMachinesStatistics.vue";
-import DisplayList from "../components/DisplayList.vue";
+import HomePage from "../components/HomePage.vue"
+import CreateServerPage from "../components/CreateServerPage.vue"
+import DestroyServerPage from "../components/DestroyServerPage.vue"
+import CreateVirtualMachinePage from "../components/CreateVirtualMachinePage.vue"
+import DestroyVirtualMachinePage from "../components/DestroyVirtualMachinePage.vue"
+import VirtualMachinesStatistics from "../components/VirtualMachinesStatistics.vue"
+import DisplayList from "../components/DisplayList.vue"
 
 const routes = [
     {
         path: '/',
         name: 'HomePage',
         component: HomePage,
+        redirect: '/createServer',
         children:[
             {
                 path: 'createServer',
