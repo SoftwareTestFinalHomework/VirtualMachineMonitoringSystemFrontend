@@ -33,25 +33,19 @@
                     </el-col>
                     <el-col :span="12">
                         <el-card class="overview-card">
-<!--                            <div>-->
-<!--                                这里写echarts-->
-<!--                            </div>-->
+                            <div id="memory_usage_5s"></div>
                         </el-card>
                     </el-col>
                 </el-row>
                 <el-row class="row-height">
                     <el-col :span="12">
                         <el-card class="overview-card">
-<!--                            <div>-->
-<!--                                这里写echarts-->
-<!--                            </div>-->
+                            <div id="disk_usage_5s"></div>
                         </el-card>
                     </el-col>
                     <el-col :span="12">
                         <el-card class="overview-card">
-<!--                            <div>-->
-<!--                                这里写echarts-->
-<!--                            </div>-->
+                            <div id="network_5s"></div>
                         </el-card>
                     </el-col>
                 </el-row>
@@ -89,14 +83,15 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 import * as echarts from 'echarts/core'
 import {
     TitleComponent,
     ToolboxComponent,
     TooltipComponent,
     GridComponent,
-    DataZoomComponent
+    DataZoomComponent,
+    LegendComponent
 } from 'echarts/components'
 import { LineChart } from 'echarts/charts'
 import { UniversalTransition } from 'echarts/features'
@@ -111,7 +106,8 @@ echarts.use([
     TitleComponent,
     ToolboxComponent,
     TooltipComponent,
-    DataZoomComponent
+    DataZoomComponent,
+    LegendComponent
 ])
 export default {
     name: "VirtualMachinesStatistics",
@@ -124,6 +120,7 @@ export default {
         const realTimeMemoryUsage = ref('')
         const realTimeDiskUsage = ref('')
         const realTimeNetworkUsage = ref('')
+        let Timer = null
         const getVirtualMachineOfServer = (val) =>{
             for(let i=0;i<serverList.value.length;i++){
                 if(serverList.value[i].name === selectedServer.value){
@@ -461,78 +458,354 @@ export default {
                         console.log(error)
                     })
 
-                    const cpuUsageDynamicData = []
-                    const categories = []
-                    const cpuUsageDynamicOption = {
-                        tooltip: {
-                            trigger: 'axis'
-                        },
-                        xAxis: {
-                            type: 'category',
-                            boundaryGap: false,
-                            data: categories
-                        },
-                        yAxis: {
-                            name: 'CPU Usage(%)',
-                            type: 'value'
-                        },
-                        series: [
-                            {
-                                name: 'CPU Usage',
-                                type: 'line',
-                                itemStyle: {
-                                    color: 'rgb(243,8,28)'
+                    axios({
+                        method: 'get',
+                        url: 'http://'+serverList.value[i].ip+':8000/getSelectedVirtualMachineData?interval=5s&name='+selectedVirtualMachine.value
+                    }).then((response) =>{
+                        console.log(response.data.data)
+                        const cpuUsageDynamicData = response.data.data.map((item) =>{
+                            return item.cpu_usage
+                        })
+                        const cpuUsageCategories = response.data.data.map((item) =>{
+                            return item.time.split('.')[0]
+                        })
+                        const cpuUsageDynamicOption = {
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: cpuUsageCategories
+                            },
+                            yAxis: {
+                                name: 'CPU Usage(%)',
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    name: 'CPU Usage',
+                                    type: 'line',
+                                    showSymbol: false,
+                                    itemStyle: {
+                                        color: 'rgb(243,8,28)'
+                                    },
+                                    areaStyle: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            {
+                                                offset: 0,
+                                                color: 'rgb(238,17,128)'
+                                            },
+                                            {
+                                                offset: 1,
+                                                color: 'rgb(220,13,227)'
+                                            }
+                                        ])
+                                    },
+                                    data: cpuUsageDynamicData
+                                }
+                            ]
+                        }
+                        const cpuUsageDom5s = document.getElementById('cpu_usage_5s')
+                        const cpuUsageChart5s = echarts.init(cpuUsageDom5s)
+
+                        const memoryUsageDynamicData = response.data.data.map((item) =>{
+                            return item.memory_usage
+                        })
+                        const memoryUsageCategories = response.data.data.map((item) =>{
+                            return item.time.split('.')[0]
+                        })
+                        const memoryUsageDynamicOption = {
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: memoryUsageCategories
+                            },
+                            yAxis: {
+                                name: 'Memory Usage(%)',
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    name: 'Memory Usage',
+                                    type: 'line',
+                                    showSymbol: false,
+                                    itemStyle: {
+                                        color: 'rgb(8,90,243)'
+                                    },
+                                    areaStyle: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            {
+                                                offset: 0,
+                                                color: 'rgb(17,161,238)'
+                                            },
+                                            {
+                                                offset: 1,
+                                                color: 'rgb(116,13,227)'
+                                            }
+                                        ])
+                                    },
+                                    data: memoryUsageDynamicData
+                                }
+                            ]
+                        }
+                        const memoryUsageDom5s = document.getElementById('memory_usage_5s')
+                        const memoryUsageChart5s = echarts.init(memoryUsageDom5s)
+
+                        const diskUsageDynamicData = response.data.data.map((item) =>{
+                            return item.disk_usage * 100
+                        })
+                        const diskUsageCategories = response.data.data.map((item) =>{
+                            return item.time.split('.')[0]
+                        })
+                        const diskUsageDynamicOption = {
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: diskUsageCategories
+                            },
+                            yAxis: {
+                                name: 'Disk Usage(%)',
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    name: 'Disk Usage',
+                                    type: 'line',
+                                    showSymbol: false,
+                                    itemStyle: {
+                                        color: 'rgb(8,188,243)'
+                                    },
+                                    areaStyle: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            {
+                                                offset: 0,
+                                                color: 'rgb(17,238,231)'
+                                            },
+                                            {
+                                                offset: 1,
+                                                color: 'rgb(13,227,170)'
+                                            }
+                                        ])
+                                    },
+                                    data: diskUsageDynamicData
+                                }
+                            ]
+                        }
+                        const diskUsageDom5s = document.getElementById('disk_usage_5s')
+                        const diskUsageChart5s = echarts.init(diskUsageDom5s)
+
+                        const netInDynamicData = response.data.data.map((item) =>{
+                            return item.network_in_usage
+                        })
+                        const netOutDynamicData = response.data.data.map((item) =>{
+                            return item.network_out_usage
+                        })
+                        const networkCategories = response.data.data.map((item) =>{
+                            return item.time.split('.')[0]
+                        })
+                        const networkDynamicOption = {
+                            legend:{
+                                data: ['NET IN(KB)', 'NET OUT(KB)']
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: networkCategories
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    name: 'NET IN(KB)',
+                                    type: 'line',
+                                    showSymbol: false,
+                                    itemStyle: {
+                                        color: 'rgb(243,8,28)'
+                                    },
+                                    areaStyle: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            {
+                                                offset: 0,
+                                                color: 'rgb(238,17,128)'
+                                            },
+                                            {
+                                                offset: 1,
+                                                color: 'rgb(220,13,227)'
+                                            }
+                                        ])
+                                    },
+                                    data: netInDynamicData
                                 },
-                                areaStyle: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    name: 'NET OUT(KB)',
+                                    type: 'line',
+                                    showSymbol: false,
+                                    itemStyle: {
+                                        color: 'rgb(243,8,28)'
+                                    },
+                                    areaStyle: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            {
+                                                offset: 0,
+                                                color: 'rgb(238,17,128)'
+                                            },
+                                            {
+                                                offset: 1,
+                                                color: 'rgb(220,13,227)'
+                                            }
+                                        ])
+                                    },
+                                    data: netOutDynamicData
+                                }
+                            ]
+                        }
+                        const networkDom5s = document.getElementById('network_5s')
+                        const networkChart5s = echarts.init(networkDom5s)
+                        Timer = setInterval(() =>{
+                            axios({
+                                method: 'get',
+                                url: 'http://'+serverList.value[i].ip+':8000/getRunningVirtualMachinesCpuUsage?name='+selectedVirtualMachine.value
+                            }).then((response) =>{
+                                if(cpuUsageDynamicData.length <50){
+                                    cpuUsageDynamicData.push(response.data.cpu_usage)
+                                    cpuUsageCategories.push(new Date().toString())
+                                }else {
+                                    cpuUsageDynamicData.shift()
+                                    cpuUsageCategories.shift()
+                                    cpuUsageDynamicData.push(response.data.cpu_usage)
+                                    cpuUsageCategories.push(new Date().toString())
+                                }
+                                cpuUsageChart5s.setOption({
+                                    xAxis: [
                                         {
-                                            offset: 0,
-                                            color: 'rgb(238,17,128)'
+                                            data: cpuUsageCategories
+                                        }
+                                    ],
+                                    series: [
+                                        {
+                                            data: cpuUsageDynamicData
+                                        }
+                                    ]
+                                })
+                            }).catch((error) =>{
+                                console.log(error)
+                            })
+
+                            axios({
+                                method: 'get',
+                                url: 'http://'+serverList.value[i].ip+':8000/getRunningVirtualMachinesMemoryUsage?name='+selectedVirtualMachine.value
+                            }).then((response) =>{
+                                if(memoryUsageDynamicData.length < 50){
+                                    memoryUsageDynamicData.push(response.data.memory_usage)
+                                    memoryUsageCategories.push(new Date().toString())
+                                }else{
+                                    memoryUsageDynamicData.shift()
+                                    memoryUsageCategories.shift()
+                                    memoryUsageDynamicData.push(response.data.memory_usage)
+                                    memoryUsageCategories.push(new Date().toString())
+                                }
+                                memoryUsageChart5s.setOption({
+                                    xAxis: [
+                                        {
+                                            data: memoryUsageCategories
+                                        }
+                                    ],
+                                    series: [
+                                        {
+                                            data: memoryUsageDynamicData
+                                        }
+                                    ]
+                                })
+                            }).catch((error) =>{
+                                console.log(error)
+                            })
+
+                            axios({
+                                method: 'get',
+                                url: 'http://'+serverList.value[i].ip+':8000/getRunningVirtualMachinesDiskUsage?name='+selectedVirtualMachine.value
+                            }).then((response) =>{
+                                if(diskUsageDynamicData.length < 50){
+                                    diskUsageDynamicData.push(response.data.disk_usage * 100)
+                                    diskUsageCategories.push(new Date().toString())
+                                }else {
+                                    diskUsageDynamicData.shift()
+                                    diskUsageCategories.shift()
+                                    diskUsageDynamicData.push(response.data.disk_usage * 100)
+                                    diskUsageCategories.push(new Date().toString())
+                                }
+                                diskUsageChart5s.setOption({
+                                    xAxis: [
+                                        {
+                                            data: diskUsageCategories
+                                        }
+                                    ],
+                                    series: [
+                                        {
+                                            data: diskUsageDynamicData
+                                        }
+                                    ]
+                                })
+                            }).catch((error) =>{
+                                console.log(error)
+                            })
+
+                            axios({
+                                method: 'get',
+                                url: 'http://'+serverList.value[i].ip+':8000/getRunningVirtualMachinesNetworkUsage?name='+selectedVirtualMachine.value
+                            }).then((response) =>{
+                                console.log(response.data.net_in)
+                                console.log(response.data.net_out)
+                                if(netInDynamicData.length < 50){
+                                    netInDynamicData.push(response.data.net_in)
+                                    netOutDynamicData.push(response.data.net_out)
+                                    networkCategories.push(new Date().toString())
+                                }else {
+                                    netInDynamicData.shift()
+                                    netOutDynamicData.shift()
+                                    networkCategories.shift()
+                                    netInDynamicData.push(response.data.net_in)
+                                    netOutDynamicData.push(response.data.net_out)
+                                    networkCategories.push(new Date().toString())
+                                }
+                                networkChart5s.setOption({
+                                    xAxis: [
+                                        {
+                                            data: networkCategories
+                                        }
+                                    ],
+                                    series: [
+                                        {
+                                            data: netInDynamicData
                                         },
                                         {
-                                            offset: 1,
-                                            color: 'rgb(220,13,227)'
+                                            data: netOutDynamicData
                                         }
-                                    ])
-                                },
-                                data: cpuUsageDynamicData
-                            }
-                        ]
-                    }
-                    const cpuUsageDom5s = document.getElementById('cpu_usage_5s')
-                    const cpuUsageChart5s = echarts.init(cpuUsageDom5s)
-                    setInterval(() =>{
-                        axios({
-                            method: 'get',
-                            url: 'http://'+serverList.value[i].ip+':8000/getRunningVirtualMachinesCpuUsage?name='+selectedVirtualMachine.value
-                        }).then((response) =>{
-                            console.log(response.data.cpu_usage)
-                            if(cpuUsageDynamicData.length <50){
-                                cpuUsageDynamicData.push(response.data.cpu_usage)
-                                categories.push(new Date().toString())
-                            }else {
-                                cpuUsageDynamicData.shift()
-                                categories.shift()
-                                cpuUsageDynamicData.push(response.data.cpu_usage)
-                                categories.push(new Date().toString())
-                            }
-                            cpuUsageChart5s.setOption({
-                                xAxis: [
-                                    {
-                                        data: categories
-                                    }
-                                ],
-                                series: [
-                                    {
-                                        data: cpuUsageDynamicData
-                                    }
-                                ]
+                                    ]
+                                })
+                            }).catch((error) =>{
+                                console.log(error)
                             })
-                        }).catch((error) =>{
-                            console.log(error)
-                        })
-                    },5000)
-                    cpuUsageDynamicOption && cpuUsageChart5s.setOption(cpuUsageDynamicOption)
+
+                        },5000)
+
+                        cpuUsageDynamicOption && cpuUsageChart5s.setOption(cpuUsageDynamicOption)
+                        memoryUsageDynamicOption && memoryUsageChart5s.setOption(memoryUsageDynamicOption)
+                        diskUsageDynamicOption && diskUsageChart5s.setOption(diskUsageDynamicOption)
+                        networkDynamicOption && networkChart5s.setOption(networkDynamicOption)
+                    }).catch((error) =>{
+                        console.log(error)
+                    })
                     break
                 }
             }
@@ -542,6 +815,12 @@ export default {
             if(typeof(Cookies.get('servers')) !== 'undefined'){
                 serverList.value = JSON.parse(Cookies.get('servers')).servers
             }
+
+        })
+        onUnmounted(() =>{
+            console.log(Timer)
+            clearInterval(Timer)
+            console.log('onUnmounted!!!')
         })
         return {
             serverList,
@@ -607,6 +886,18 @@ div{
     height: 500px;
 }
 #cpu_usage_5s{
+    width: 550px;
+    height: 250px;
+}
+#memory_usage_5s{
+    width: 550px;
+    height: 250px;
+}
+#disk_usage_5s{
+    width: 550px;
+    height: 250px;
+}
+#network_5s{
     width: 550px;
     height: 250px;
 }
