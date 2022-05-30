@@ -66,11 +66,11 @@ export default {
             }).then((response) =>{
                 if(response.data.status === 'success'){
                     if(typeof(Cookies.get('servers') === 'undefined')){
-                        Cookies.set('servers',JSON.stringify({'servers':[{'ip':serverIP.value, 'name':serverName.value}]}))
+                        Cookies.set('servers',JSON.stringify({'servers':[{'ip':serverIP.value, 'name':serverName.value}]}),{ expires: 365 })
                     }else{
                         const serversJSON = JSON.parse(Cookies.get('servers'))
                         serversJSON.servers.push({'ip':serverIP.value, 'name':serverName.value})
-                        Cookies.set('servers',JSON.stringify(serversJSON))
+                        Cookies.set('servers',JSON.stringify(serversJSON),{ expires: 365 })
                     }
                     ElMessageBox.alert('Create server successfully', 'Tip', {
                         confirmButtonText: 'OK',

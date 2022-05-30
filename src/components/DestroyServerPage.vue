@@ -41,7 +41,7 @@ export default {
                             break
                         }
                     }
-                    Cookies.set('servers',JSON.stringify(serversJSON))
+                    Cookies.set('servers',JSON.stringify(serversJSON),{ expires: 365 })
                     ElMessageBox.alert('Delete server successfully', 'Tip', {
                         confirmButtonText: 'OK',
                     })
