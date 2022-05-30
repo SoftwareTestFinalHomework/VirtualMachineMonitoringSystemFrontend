@@ -2,11 +2,11 @@
     <el-row>
         <el-col :span="1"></el-col>
         <el-col :span="22">
-            <el-select placeholder="Select Server" size="large">
+            <el-select v-model="selectedServer" placeholder="Select Server" size="large">
                 <el-option
                     v-for="item in serverList"
-                    :key="item"
-                    :value="item"
+                    :key="item.name"
+                    :value="item.name"
                 />
             </el-select>
         </el-col>
@@ -38,17 +38,26 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue"
+import Cookies from "js-cookie";
 
 export default {
     name: "DestroyVirtualMachinePage",
     setup(props,context){
         const virtualMachineName = ref('')
         const serverList = ref([])
+        const selectedServer = ref('')
+
+        onMounted(() =>{
+            if(typeof(Cookies.get('servers')) !== 'undefined'){
+                serverList.value = JSON.parse(Cookies.get('servers')).servers
+            }
+        })
 
         return {
             virtualMachineName,
-            serverList
+            serverList,
+            selectedServer
         }
     }
 }
