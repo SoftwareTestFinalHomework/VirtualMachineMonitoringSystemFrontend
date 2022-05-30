@@ -137,6 +137,7 @@ export default {
             }
         }
         const getVirtualMachineData = (val) =>{
+            clearInterval(Timer)
             for(let i=0;i<serverList.value.length;i++){
                 if(serverList.value[i].name === selectedServer.value){
                     axios({
