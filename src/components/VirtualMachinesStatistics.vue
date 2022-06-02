@@ -765,7 +765,8 @@ export default {
                                     diskUsageDynamicData.push(response.data.disk_usage * 100)
                                     diskUsageCategories.push(new Date().toString())
                                 }
-                                currentMemoryUsage.value = (response.data.disk_usage * 100 + '').substring(0,5)
+                                currentDiskUsage.value = (response.data.disk_usage * 100 + '').substring(0,5)
+                                console.log("Disk:", currentDiskUsage.value)
                                 diskUsageChart5s.setOption({
                                     xAxis: [
                                         {
