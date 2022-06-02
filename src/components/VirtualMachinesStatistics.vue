@@ -28,11 +28,15 @@
                 <el-row class="row-height">
                     <el-col :span="12">
                         <el-card class="overview-card">
+                            <span v-if="selectedVirtualMachine !== ''">{{"Current CPU Usage: " + currentCpuUsage + "%"}}</span>
+                            <span v-else></span>
                             <div id="cpu_usage_5s"></div>
                         </el-card>
                     </el-col>
                     <el-col :span="12">
                         <el-card class="overview-card">
+                            <span v-if="selectedVirtualMachine !== ''">{{"Current Memeory Usage: " + currentMemoryUsage + "%"}}</span>
+                            <span v-else></span>
                             <div id="memory_usage_5s"></div>
                         </el-card>
                     </el-col>
@@ -40,11 +44,15 @@
                 <el-row class="row-height">
                     <el-col :span="12">
                         <el-card class="overview-card">
+                            <span v-if="selectedVirtualMachine !== ''">{{"Current Disk Usage: " + currentDiskUsage + "%"}}</span>
+                            <span v-else></span>
                             <div id="disk_usage_5s"></div>
                         </el-card>
                     </el-col>
                     <el-col :span="12">
                         <el-card class="overview-card">
+                            <span v-if="selectedVirtualMachine !== ''">{{"Current Net Usage: " +"Net In: " + netInRate + "KB " + "Net Out: " + netOutRate + "KB "}}</span>
+                            <span v-else></span>
                             <div id="network_5s"></div>
                         </el-card>
                     </el-col>
@@ -120,6 +128,11 @@ export default {
         const realTimeMemoryUsage = ref('')
         const realTimeDiskUsage = ref('')
         const realTimeNetworkUsage = ref('')
+        const currentCpuUsage = ref('')
+        const currentMemoryUsage = ref('')
+        const currentDiskUsage = ref('')
+        const netInRate = ref('')
+        const netOutRate = ref('')
         let Timer = null
         const getVirtualMachineOfServer = (val) =>{
             for(let i=0;i<serverList.value.length;i++){
@@ -470,6 +483,7 @@ export default {
                         const cpuUsageCategories = response.data.data.map((item) =>{
                             return item.time.split('.')[0]
                         })
+                        currentCpuUsage.value = (cpuUsageDynamicData[cpuUsageDynamicData.length -1] + '').substring(0,5)
                         const cpuUsageDynamicOption = {
                             tooltip: {
                                 trigger: 'axis'
@@ -516,6 +530,7 @@ export default {
                         const memoryUsageCategories = response.data.data.map((item) =>{
                             return item.time.split('.')[0]
                         })
+                        currentMemoryUsage.value = (memoryUsageDynamicData[memoryUsageDynamicData.length -1] + '').substring(0,5)
                         const memoryUsageDynamicOption = {
                             tooltip: {
                                 trigger: 'axis'
@@ -562,6 +577,7 @@ export default {
                         const diskUsageCategories = response.data.data.map((item) =>{
                             return item.time.split('.')[0]
                         })
+                        currentDiskUsage.value = (diskUsageDynamicData[diskUsageDynamicData.length -1] + '').substring(0,5)
                         const diskUsageDynamicOption = {
                             tooltip: {
                                 trigger: 'axis'
@@ -611,6 +627,8 @@ export default {
                         const networkCategories = response.data.data.map((item) =>{
                             return item.time.split('.')[0]
                         })
+                        netInRate.value = (netInDynamicData[netInDynamicData.length -1] + '').substring(0,5)
+                        netOutRate.value = (netOutDynamicData[netOutDynamicData.length -1] + '').substring(0,5)
                         const networkDynamicOption = {
                             legend:{
                                 data: ['NET IN(KB)', 'NET OUT(KB)']
@@ -687,6 +705,7 @@ export default {
                                     cpuUsageDynamicData.push(response.data.cpu_usage)
                                     cpuUsageCategories.push(new Date().toString())
                                 }
+                                currentCpuUsage.value = (response.data.cpu_usage + '').substring(0,5)
                                 cpuUsageChart5s.setOption({
                                     xAxis: [
                                         {
@@ -716,6 +735,7 @@ export default {
                                     memoryUsageDynamicData.push(response.data.memory_usage)
                                     memoryUsageCategories.push(new Date().toString())
                                 }
+                                currentMemoryUsage.value = (response.data.memory_usage + '').substring(0,5)
                                 memoryUsageChart5s.setOption({
                                     xAxis: [
                                         {
@@ -745,6 +765,7 @@ export default {
                                     diskUsageDynamicData.push(response.data.disk_usage * 100)
                                     diskUsageCategories.push(new Date().toString())
                                 }
+                                currentMemoryUsage.value = (response.data.disk_usage * 100 + '').substring(0,5)
                                 diskUsageChart5s.setOption({
                                     xAxis: [
                                         {
@@ -779,6 +800,8 @@ export default {
                                     netOutDynamicData.push(response.data.net_out)
                                     networkCategories.push(new Date().toString())
                                 }
+                                netInRate.value = (response.data.net_in + '').substring(0,5)
+                                netOutRate.value = (response.data.net_out + '').substring(0,5)
                                 networkChart5s.setOption({
                                     xAxis: [
                                         {
@@ -830,6 +853,11 @@ export default {
             realTimeMemoryUsage,
             realTimeDiskUsage,
             realTimeNetworkUsage,
+            currentCpuUsage,
+            currentMemoryUsage,
+            currentDiskUsage,
+            netInRate,
+            netOutRate,
             getVirtualMachineOfServer,
             getVirtualMachineData
         }
@@ -899,5 +927,8 @@ div{
 #network_5s{
     width: 550px;
     height: 250px;
+}
+span{
+    font-weight: bold;
 }
 </style>
