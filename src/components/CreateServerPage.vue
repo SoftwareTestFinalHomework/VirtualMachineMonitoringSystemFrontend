@@ -45,6 +45,12 @@ export default {
         const serverIP = ref('')
         const serverName = ref('')
         const checkConnection = () =>{
+            if(serverIP.value === ''){
+                ElMessageBox.alert('You need to add server IP!', 'Warning', {
+                    confirmButtonText: 'OK',
+                })
+                return
+            }
             axios({
                 method: 'get',
                 url: 'http://'+ serverIP.value +':8000/checkConnection'
@@ -60,6 +66,12 @@ export default {
         }
 
         const createServer = () =>{
+            if(serverIP.value === '' || serverName.value === ''){
+                ElMessageBox.alert('You need to add server IP and server name!', 'Warning', {
+                    confirmButtonText: 'OK',
+                })
+                return
+            }
             axios({
                 method: 'get',
                 url: 'http://'+ serverIP.value +':8000/addServer?ip=' + serverIP.value

@@ -91,7 +91,7 @@
 import { ref, onMounted } from "vue"
 import Cookies from "js-cookie"
 import axios from "axios"
-
+import { ElMessageBox } from "element-plus"
 export default {
     name: "CreateVirtualMachinePage",
     setup(props,context){
@@ -104,6 +104,12 @@ export default {
         const virtualMachineName = ref('')
         const selectedServer = ref('')
         const clickToCreateVirtualMachine = () =>{
+            if(selectedServer.value === ''){
+                ElMessageBox.alert('You need to select a server!', 'Warning', {
+                    confirmButtonText: 'OK',
+                })
+                return
+            }
             let pos = -1
             for(let i=0;i<serverList.value.length;i++){
                 if(serverList.value[i].name === selectedServer.value){
@@ -123,6 +129,9 @@ export default {
                 }
             }).then((response) =>{
                 console.log(response)
+                ElMessageBox.alert('Create virtual machine successfully! You may need to wait for minutes', 'Tip', {
+                    confirmButtonText: 'OK',
+                })
             }).catch((error) =>{
                 console.log(error)
             })
@@ -181,7 +190,6 @@ span{
 .selector{
     margin-left: 50px;
 }
-
 .create-button{
     text-align: center;
 }

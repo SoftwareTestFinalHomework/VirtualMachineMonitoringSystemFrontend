@@ -29,6 +29,12 @@ export default {
     setup(props,context){
         const serverIP = ref('')
         const deleteServer = () =>{
+            if(serverIP.value === ''){
+                ElMessageBox.alert('You need to add server IP!', 'Warning', {
+                    confirmButtonText: 'OK',
+                })
+                return
+            }
             axios({
                 method: 'get',
                 url: 'http://'+ serverIP.value +':8000/deleteServer?ip=' + serverIP.value
