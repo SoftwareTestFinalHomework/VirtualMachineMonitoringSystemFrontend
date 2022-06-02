@@ -19,10 +19,17 @@ jobs:
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
       run: docker build . --file Dockerfile --tag ${DOCKER_USERNAME}/virtualmachinemonitoringsystemfrontend:${{github.sha}}
-    - name: Login docker
+    - name: Docker Login
       env: 
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
-      run: echo "${DOCKER_TOKEN}" | docker login --username ${DOCKER_USERNAME}
-    - name: Push docker image
+      uses: docker/login-action@v2.0.0
+      with: 
+        username: ${DOCKER_USERNAME}
+        password: ${DOCKER_TOKEN}
+    - name: Push Docker Image
+      env: 
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
       run: docker push ${DOCKER_USERNAME}/virtualmachinemonitoringsystemfrontend:${{github.sha}}
+    
