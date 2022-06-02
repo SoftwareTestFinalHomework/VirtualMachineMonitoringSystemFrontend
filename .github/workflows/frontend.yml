@@ -23,6 +23,6 @@ jobs:
       env: 
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
-      run: echo "${{DOCKER_TOKEN}}" | docker login --username ${{DOCKER_USERNAME}}
+      run: echo "${DOCKER_TOKEN}" | docker login --username ${{DOCKER_USERNAME}}
     - name: Push docker image
       run: docker push ${DOCKER_USERNAME}/virtualmachinemonitoringsystemfrontend:${{github.sha}}
