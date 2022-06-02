@@ -1,0 +1,28 @@
+name: VirtualMachineMonitoringSystemFrontend
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build_and_push_docker_image:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
+      run: docker build . --file Dockerfile --tag ${DOCKER_USERNAME}/virtualmachinemonitoringsystemfrontend:${{github.sha}}
+    - name: Login docker
+      env: 
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
+      run: echo "${{DOCKER_TOKEN}}" | docker login --username ${{DOCKER_USERNAME}}
+    - name: Push docker image
+      run: docker push ${DOCKER_USERNAME}/virtualmachinemonitoringsystemfrontend:${{github.sha}}
