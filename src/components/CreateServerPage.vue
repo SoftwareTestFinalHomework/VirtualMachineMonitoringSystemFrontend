@@ -77,7 +77,7 @@ export default {
                 url: 'http://'+ serverIP.value +':8000/addServer?ip=' + serverIP.value
             }).then((response) =>{
                 if(response.data.status === 'success'){
-                    if(typeof(Cookies.get('servers') === 'undefined')){
+                    if(typeof(Cookies.get('servers')) === 'undefined'){
                         Cookies.set('servers',JSON.stringify({'servers':[{'ip':serverIP.value, 'name':serverName.value}]}),{ expires: 365 })
                     }else{
                         const serversJSON = JSON.parse(Cookies.get('servers'))
