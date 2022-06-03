@@ -15,9 +15,9 @@
 >本项目已经构建成Docker镜像上传至Docker Hub，可以在安装了Docker服务的Linux机器上执行以下命令，启动前端服务
 
 ```shell
-sudo docker pull lhy211/virtualmachinemonitoringsystemfrontend:deae49c9b005d825a16b2f616a9ab0471d9ac05a
+sudo docker pull lhy211/virtualmachinemonitoringsystemfrontend:e42260b8baabb4b6e49d0f20ca0c770ff0ad925c
 sudo docker run -d -p 80:80 \
-lhy211/virtualmachinemonitoringsystemfrontend:deae49c9b005d825a16b2f616a9ab0471d9ac05a
+lhy211/virtualmachinemonitoringsystemfrontend:e42260b8baabb4b6e49d0f20ca0c770ff0ad925c
 ```
 
 也可以手动构建Docker镜像运行
