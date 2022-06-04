@@ -71,6 +71,7 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://'+serverList.value[pos].ip+':8000/deleteVirtualMachine',
+                timeout: 0,
                 data: {
                     virtualMachineName: virtualMachineName.value
                 }
