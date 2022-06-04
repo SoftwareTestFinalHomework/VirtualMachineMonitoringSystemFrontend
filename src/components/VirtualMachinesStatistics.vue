@@ -134,6 +134,23 @@ export default {
         const netInRate = ref('')
         const netOutRate = ref('')
         let Timer = null
+        let cpuChartDom = null
+        let cpuChart = null
+        let memoryChartDom = null
+        let memoryChart = null
+        let diskChartDom = null
+        let diskChart = null
+        let networkChartDom = null
+        let networkChart = null
+        let cpuUsageDom5s = null
+        let cpuUsageChart5s = null
+        let memoryUsageDom5s = null
+        let memoryUsageChart5s = null
+        let diskUsageDom5s = null
+        let diskUsageChart5s = null
+        let networkDom5s = null
+        let networkChart5s = null
+
         const getVirtualMachineOfServer = (val) =>{
             for(let i=0;i<serverList.value.length;i++){
                 if(serverList.value[i].name === selectedServer.value){
@@ -224,8 +241,8 @@ export default {
                             option.series[0].data = response.data.data.map((item) =>{
                                 return item.mean
                             })
-                            const cpuChartDom = document.getElementById('cpu_usage_30m')
-                            const cpuChart = echarts.init(cpuChartDom)
+                            // const cpuChartDom = document.getElementById('cpu_usage_30m')
+                            // const cpuChart = echarts.init(cpuChartDom)
                             option && cpuChart.setOption(option, true)
                         }
                         const drawMemoryUsageIntervalThirtyMinutes = () =>{
@@ -295,8 +312,8 @@ export default {
                             option.series[0].data = response.data.data.map((item) =>{
                                 return item.mean_1
                             })
-                            const memoryChartDom = document.getElementById('memory_usage_30m')
-                            const memoryChart = echarts.init(memoryChartDom)
+                            // const memoryChartDom = document.getElementById('memory_usage_30m')
+                            // const memoryChart = echarts.init(memoryChartDom)
                             option && memoryChart.setOption(option, true)
                         }
                         const drawDiskUsageIntervalThirtyMinutes = () =>{
@@ -366,8 +383,8 @@ export default {
                             option.series[0].data = response.data.data.map((item) =>{
                                 return item.mean_2 * 100
                             })
-                            const diskChartDom = document.getElementById('disk_usage_30m')
-                            const diskChart = echarts.init(diskChartDom)
+                            // const diskChartDom = document.getElementById('disk_usage_30m')
+                            // const diskChart = echarts.init(diskChartDom)
                             option && diskChart.setOption(option, true)
                         }
                         const drawNetworkUsageIntervalThirtyMinutes = () =>{
@@ -460,8 +477,8 @@ export default {
                             option.series[1].data = response.data.data.map((item) =>{
                                 return item.mean_4
                             })
-                            const networkChartDom = document.getElementById('network_usage_30m')
-                            const networkChart = echarts.init(networkChartDom)
+                            // const networkChartDom = document.getElementById('network_usage_30m')
+                            // const networkChart = echarts.init(networkChartDom)
                             option && networkChart.setOption(option, true)
                         }
                         drawCpuUsageIntervalThirtyMinutes()
@@ -521,8 +538,8 @@ export default {
                                 }
                             ]
                         }
-                        const cpuUsageDom5s = document.getElementById('cpu_usage_5s')
-                        const cpuUsageChart5s = echarts.init(cpuUsageDom5s)
+                        // const cpuUsageDom5s = document.getElementById('cpu_usage_5s')
+                        // const cpuUsageChart5s = echarts.init(cpuUsageDom5s)
 
                         const memoryUsageDynamicData = response.data.data.map((item) =>{
                             return item.memory_usage
@@ -568,8 +585,8 @@ export default {
                                 }
                             ]
                         }
-                        const memoryUsageDom5s = document.getElementById('memory_usage_5s')
-                        const memoryUsageChart5s = echarts.init(memoryUsageDom5s)
+                        // const memoryUsageDom5s = document.getElementById('memory_usage_5s')
+                        // const memoryUsageChart5s = echarts.init(memoryUsageDom5s)
 
                         const diskUsageDynamicData = response.data.data.map((item) =>{
                             return item.disk_usage * 100
@@ -615,8 +632,8 @@ export default {
                                 }
                             ]
                         }
-                        const diskUsageDom5s = document.getElementById('disk_usage_5s')
-                        const diskUsageChart5s = echarts.init(diskUsageDom5s)
+                        // const diskUsageDom5s = document.getElementById('disk_usage_5s')
+                        // const diskUsageChart5s = echarts.init(diskUsageDom5s)
 
                         const netInDynamicData = response.data.data.map((item) =>{
                             return item.network_in_usage
@@ -664,6 +681,7 @@ export default {
                                             }
                                         ])
                                     },
+                                    zlevel: 0,
                                     data: netInDynamicData
                                 },
                                 {
@@ -685,12 +703,13 @@ export default {
                                             }
                                         ])
                                     },
+                                    zlevel: 1,
                                     data: netOutDynamicData
                                 }
                             ]
                         }
-                        const networkDom5s = document.getElementById('network_5s')
-                        const networkChart5s = echarts.init(networkDom5s)
+                        // const networkDom5s = document.getElementById('network_5s')
+                        // const networkChart5s = echarts.init(networkDom5s)
                         Timer = setInterval(() =>{
                             axios({
                                 method: 'get',
@@ -836,11 +855,27 @@ export default {
             }
 
         }
+
         onMounted(() =>{
             if(typeof(Cookies.get('servers')) !== 'undefined'){
                 serverList.value = JSON.parse(Cookies.get('servers')).servers
             }
-
+            cpuChartDom = document.getElementById('cpu_usage_30m')
+            cpuChart = echarts.init(cpuChartDom)
+            memoryChartDom = document.getElementById('memory_usage_30m')
+            memoryChart = echarts.init(memoryChartDom)
+            diskChartDom = document.getElementById('disk_usage_30m')
+            diskChart = echarts.init(diskChartDom)
+            networkChartDom = document.getElementById('network_usage_30m')
+            networkChart = echarts.init(networkChartDom)
+            cpuUsageDom5s = document.getElementById('cpu_usage_5s')
+            cpuUsageChart5s = echarts.init(cpuUsageDom5s)
+            memoryUsageDom5s = document.getElementById('memory_usage_5s')
+            memoryUsageChart5s = echarts.init(memoryUsageDom5s)
+            diskUsageDom5s = document.getElementById('disk_usage_5s')
+            diskUsageChart5s = echarts.init(diskUsageDom5s)
+            networkDom5s = document.getElementById('network_5s')
+            networkChart5s = echarts.init(networkDom5s)
         })
         onUnmounted(() =>{
             clearInterval(Timer)
