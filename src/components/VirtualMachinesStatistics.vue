@@ -877,14 +877,14 @@ export default {
         })
         onUnmounted(() =>{
             clearInterval(Timer)
-            echarts.dispose(cpuChartDom)
-            echarts.dispose(memoryChartDom)
-            echarts.dispose(diskChartDom)
-            echarts.dispose(networkChartDom)
-            echarts.dispose(cpuUsageDom5s)
-            echarts.dispose(memoryUsageDom5s)
-            echarts.dispose(diskUsageDom5s)
-            echarts.dispose(networkDom5s)
+            echarts.dispose(cpuChart)
+            echarts.dispose(memoryChart)
+            echarts.dispose(diskChart)
+            echarts.dispose(networkChart)
+            echarts.dispose(cpuUsageChart5s)
+            echarts.dispose(memoryUsageChart5s)
+            echarts.dispose(diskUsageChart5s)
+            echarts.dispose(networkChart5s)
         })
         return {
             serverList,
