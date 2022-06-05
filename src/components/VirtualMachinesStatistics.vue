@@ -681,7 +681,6 @@ export default {
                                             }
                                         ])
                                     },
-                                    zlevel: 0,
                                     data: netInDynamicData
                                 },
                                 {
@@ -703,7 +702,6 @@ export default {
                                             }
                                         ])
                                     },
-                                    zlevel: 1,
                                     data: netOutDynamicData
                                 }
                             ]
@@ -830,10 +828,10 @@ export default {
                                     ],
                                     series: [
                                         {
-                                            data: netInDynamicData
+                                            data: netInDynamicData,
                                         },
                                         {
-                                            data: netOutDynamicData
+                                            data: netOutDynamicData,
                                         }
                                     ]
                                 })
@@ -879,14 +877,14 @@ export default {
         })
         onUnmounted(() =>{
             clearInterval(Timer)
-            echarts. dispose(cpuChartDom)
-            echarts. dispose(memoryChartDom)
-            echarts. dispose(diskChartDom)
-            echarts. dispose(networkChartDom)
-            echarts. dispose(cpuUsageDom5s)
-            echarts. dispose(memoryUsageDom5s)
-            echarts. dispose(diskUsageDom5s)
-            echarts. dispose(networkDom5s)
+            echarts.dispose(cpuChartDom)
+            echarts.dispose(memoryChartDom)
+            echarts.dispose(diskChartDom)
+            echarts.dispose(networkChartDom)
+            echarts.dispose(cpuUsageDom5s)
+            echarts.dispose(memoryUsageDom5s)
+            echarts.dispose(diskUsageDom5s)
+            echarts.dispose(networkDom5s)
         })
         return {
             serverList,
