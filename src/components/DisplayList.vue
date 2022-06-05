@@ -23,6 +23,7 @@ export default {
         const serverAndVirtualMachineData = ref([])
         const handleNodeClick = () =>{}
         onMounted(() =>{
+            console.log("hahaha",serverAndVirtualMachineData.value)
             if(typeof(Cookies.get('servers')) !== 'undefined'){
                 // console.log(Cookies.get('servers'))
                 const serversJSON = JSON.parse(Cookies.get('servers'))
@@ -37,7 +38,7 @@ export default {
                     }).then((response) =>{
                         console.log(response.data.allRunningVirtualMachines);
                         for(let j=0;j<response.data.allRunningVirtualMachines.length;j++){
-                            serverAndVirtualMachineData.value[serverAndVirtualMachineData.value.length - 1].children.push({
+                            serverAndVirtualMachineData.value[i].children.push({
                                 label: response.data.allRunningVirtualMachines[j] + '(Virtual Machine)'
                             })
                         }
