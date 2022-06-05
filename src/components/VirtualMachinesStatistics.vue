@@ -878,21 +878,22 @@ export default {
         onUnmounted(() =>{
             clearInterval(Timer)
             cpuChartDom.removeAttribute("_echarts_instance_")
-            cpuChartDom.html = ''
+            cpuChartDom.innerHTML = ''
+            console.log(cpuChartDom)
             memoryChartDom.removeAttribute("_echarts_instance_")
-            memoryChartDom.html = ''
+            memoryChartDom.innerHTML = ''
             diskChartDom.removeAttribute("_echarts_instance_")
-            diskChartDom.html = ''
+            diskChartDom.innerHTML = ''
             networkChartDom.removeAttribute("_echarts_instance_")
-            networkChartDom.html = ''
+            networkChartDom.innerHTML = ''
             cpuUsageDom5s.removeAttribute("_echarts_instance_")
-            cpuUsageDom5s.html = ''
+            cpuUsageDom5s.innerHTML = ''
             memoryUsageDom5s.removeAttribute("_echarts_instance_")
-            memoryUsageDom5s.html = ''
+            memoryUsageDom5s.innerHTML = ''
             diskUsageDom5s.removeAttribute("_echarts_instance_")
-            diskUsageDom5s.html = ''
+            diskUsageDom5s.innerHTML = ''
             networkDom5s.removeAttribute("_echarts_instance_")
-            networkDom5s.html = ''
+            networkDom5s.innerHTML = ''
         })
         return {
             serverList,
